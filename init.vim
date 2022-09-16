@@ -127,7 +127,7 @@ lua << END
       })
     end
 
-    vim.keymap.set('n', 'gd', vim.lsp.buf.implementation, bufopts)
+    vim.keymap.set('n', 'gd', vim.lsp.buf.definition, bufopts)
     vim.keymap.set('n', 'K', vim.lsp.buf.hover, bufopts)
   end
 
