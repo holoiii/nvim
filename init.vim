@@ -168,6 +168,20 @@ lua << END
         n = {
           ["q"] = actions.close
         },
+        i = {
+          -- Allows moving the cursor to front/end of line in insert mode
+          -- when the file finder is open
+          ["<C-a>"] = { "<Home>", type = "command" },
+          ["<C-e>"] = { "<End>", type = "command" },
+          -- Can also send custom commands like so:
+          --["<C-a>"] = function()
+            -- Neovim lua api to send vim commands
+            -- vim.cmd [[normal! 0]]
+          --end,
+          --["<C-e>"] = function()
+            -- vim.cmd [[normal! $]]
+          --end,
+        },
       },
     },
   }
