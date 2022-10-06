@@ -229,6 +229,9 @@ let mapleader = ","
 " Open nerdtree to current file
 nmap <Bar> :NERDTreeFind<CR>
 
+" Show hidden files
+let NERDTreeShowHidden=1
+
 " Open current buffer in new tab
 nnoremap <silent> <Leader>t :tab split<CR>
 
