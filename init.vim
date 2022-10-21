@@ -131,6 +131,11 @@ lua << END
     vim.keymap.set('n', 'K', vim.lsp.buf.hover, bufopts)
   end
 
+  -- JSON
+  -- Run this first:
+  -- npm i -g vscode-langservers-extracted
+  require'lspconfig'.jsonls.setup{}
+
   -- TypeScript
   nvim_lsp.tsserver.setup {
     on_attach = on_attach,
