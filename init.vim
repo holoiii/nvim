@@ -216,6 +216,9 @@ lua << END
   end)
 END
 
+" Ignore casing when searching
+set ignorecase
+
 " Use VIM settings, rather than VI settings
 set nocompatible
 
