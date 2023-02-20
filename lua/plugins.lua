@@ -46,10 +46,10 @@ return require('packer').startup(function(use)
   -- nerdcommenter
   use 'preservim/nerdcommenter'
   -- autopairs (self closing brackets)
-	use {
-		"windwp/nvim-autopairs",
-			config = function() require("nvim-autopairs").setup {} end
-	}
+  use {
+    "windwp/nvim-autopairs",
+      config = function() require("nvim-autopairs").setup {} end
+  }
   use 'windwp/nvim-ts-autotag'
   -- prettier
   use('jose-elias-alvarez/null-ls.nvim')

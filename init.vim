@@ -143,6 +143,11 @@ lua << END
     cmd = { "typescript-language-server", "--stdio" }
   } 
 
+  local capabilities = require('cmp_nvim_lsp').default_capabilities()
+  require('lspconfig')['tsserver'].setup {
+    capabilities = capabilities
+  }
+
   -- Mason setup
   local status, mason = pcall(require, "mason")
   if (not status) then return end
