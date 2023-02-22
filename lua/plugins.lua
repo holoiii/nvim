@@ -8,7 +8,7 @@ return require('packer').startup(function(use)
   -- Github Copilot
   use 'github/copilot.vim'
   -- Gruvbox
-  use 'morhetz/gruvbox'
+  use { "ellisonleao/gruvbox.nvim" }
   -- Nerdtree
   use 'preservim/nerdtree'
   -- Vim-Mark

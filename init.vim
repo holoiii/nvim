@@ -115,7 +115,8 @@ lua << END
       "html",
       "lua",
       "prisma",
-      "solidity"
+      "solidity",
+      "typescript"
     },
     autotag = {
       enable = true,
@@ -151,16 +152,13 @@ lua << END
   require'lspconfig'.jsonls.setup{}
 
   -- TypeScript
+  local capabilities = require('cmp_nvim_lsp').default_capabilities()
   nvim_lsp.tsserver.setup {
     on_attach = on_attach,
     filetypes = { "typescript", "typescriptreact", "typescript.tsx" },
-    cmd = { "typescript-language-server", "--stdio" }
-  } 
-
-  local capabilities = require('cmp_nvim_lsp').default_capabilities()
-  require('lspconfig')['tsserver'].setup {
+    cmd = { "typescript-language-server", "--stdio" },
     capabilities = capabilities
-  }
+  } 
 
   -- Mason setup
   local status, mason = pcall(require, "mason")
@@ -173,7 +171,8 @@ lua << END
   lspconfig.setup {
     ensure_installed = { "lua_ls", "tailwindcss" },
   }
-  local nvim_lsp = require "lspconfig"
+
+  -- Setup tailwind
   nvim_lsp.tailwindcss.setup {}
 
   -- Telescope setup
@@ -233,6 +232,12 @@ lua << END
   vim.keymap.set('n', ';e', function()
     builtin.diagnostics()
   end)
+
+  -- Gruvbox setup
+  -- Must be called before loading the colorscheme
+  require("gruvbox").setup({
+    contrast = "hard",
+  })
 END
 
 " Ignore casing when searching
@@ -310,13 +315,4 @@ set showcmd
 
 " Gruvbox colorscheme
 colorscheme gruvbox
-let g:gruvbox_contrast_dark = 'hard'
 set background=dark
-
-" Gruvbox search highlighting cursor color inversion
-nnoremap <silent> [oh :call gruvbox#hls_show()<CR>
-nnoremap <silent> ]oh :call gruvbox#hls_hide()<CR>
-nnoremap <silent> coh :call gruvbox#hls_toggle()<CR>
-
-nnoremap / :let @/ = ""<CR>:call gruvbox#hls_show()<CR>/
-nnoremap ? :let @/ = ""<CR>:call gruvbox#hls_show()<CR>?
