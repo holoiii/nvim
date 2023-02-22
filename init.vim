@@ -1,3 +1,16 @@
+" May need latest version of neovim:
+" brew upgrade neovim
+"
+" Packer commands:
+" :PackerInstall
+" :PackerSync
+" :PackerClean
+"
+" Other commands:
+" :Mason 
+" :TSInstall vim
+" :TSUpdate
+"
 " Load packer
 lua require('plugins')
 
@@ -101,7 +114,8 @@ lua << END
       "css",
       "html",
       "lua",
-      "prisma"
+      "prisma",
+      "solidity"
     },
     autotag = {
       enable = true,
@@ -157,7 +171,7 @@ lua << END
   mason.setup({})
 
   lspconfig.setup {
-    ensure_installed = { "sumneko_lua", "tailwindcss" },
+    ensure_installed = { "lua_ls", "tailwindcss" },
   }
   local nvim_lsp = require "lspconfig"
   nvim_lsp.tailwindcss.setup {}
