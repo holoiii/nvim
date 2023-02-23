@@ -19,17 +19,16 @@ lua << END
   require('lualine').setup()
   require('gitsigns').setup()
 
-  -- null-ls (for prettier/formatting)
-  local status, null_ls = pcall(require, "null-ls")
-  if (not status) then return end
-
-  null_ls.setup({
-    sources = {
-      null_ls.builtins.diagnostics.eslint_d.with({
-        diagnostics_format = '[eslint] #{m}\n(#{c})'
-      }),
-      null_ls.builtins.diagnostics.fish
-    }
+  -- Auto lint on save:
+  -- Need to run this first before the below works
+  -- npm i -g vscode-langservers-extracted
+  require'lspconfig'.eslint.setup({
+    on_attach = function(client, bufnr)
+      vim.api.nvim_create_autocmd("BufWritePre", {
+        buffer = bufnr,
+        command = "EslintFixAll",
+      })
+    end,
   })
 
   -- prettier
@@ -70,6 +69,11 @@ lua << END
   local lspkind = require 'lspkind'
 
   cmp.setup({
+    snippet = {
+      expand = function(args)
+        vim.fn["vsnip#anonymous"](args.body)
+      end,
+    },
     mapping = cmp.mapping.preset.insert({
       ['<C-d>'] = cmp.mapping.scroll_docs(-4),
       ['<C-f>'] = cmp.mapping.scroll_docs(4),
