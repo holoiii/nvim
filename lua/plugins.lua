@@ -58,4 +58,11 @@ return require('packer').startup(function(use)
   -- prettier
   use('jose-elias-alvarez/null-ls.nvim')
   use('MunifTanjim/prettier.nvim')
+  -- tmux navigator
+  use {
+    'numToStr/Navigator.nvim',
+    config = function()
+      require('Navigator').setup()
+    end
+  }
 end)
