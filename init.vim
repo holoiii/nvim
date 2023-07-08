@@ -232,6 +232,7 @@ lua << END
   vim.keymap.set('n', ';r', function()
     builtin.live_grep()
   end)
+  vim.keymap.set("n", ";R", ":lua require('telescope').extensions.live_grep_args.live_grep_args()<CR>")
   vim.keymap.set('n', '\\\\', function()
     builtin.buffers()
   end)

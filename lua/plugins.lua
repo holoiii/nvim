@@ -23,7 +23,13 @@ return require('packer').startup(function(use)
   -- Telescope
   use {
     'nvim-telescope/telescope.nvim', tag = '0.1.0',
-    requires = { {'nvim-lua/plenary.nvim'} }
+    requires = {
+      {'nvim-lua/plenary.nvim'} ,
+      { "nvim-telescope/telescope-live-grep-args.nvim" },
+    },
+    config = function()
+      require("telescope").load_extension("live_grep_args")
+    end
   }
   -- Icons for vim plugins
   use 'kyazdani42/nvim-web-devicons'
@@ -65,4 +71,7 @@ return require('packer').startup(function(use)
       require('Navigator').setup()
     end
   }
+  -- vim-go
+  -- Need to run :GoInstallBinaries also
+  use 'fatih/vim-go'
 end)
