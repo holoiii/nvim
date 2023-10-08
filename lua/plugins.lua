@@ -21,6 +21,8 @@ return require('packer').startup(function(use)
     requires = { 'kyazdani42/nvim-web-devicons', opt = true }
   }
   -- Telescope
+  -- Need to also have ripgrep installed for this to work:
+  -- brew install ripgrep
   use {
     'nvim-telescope/telescope.nvim', tag = '0.1.0',
     requires = {
