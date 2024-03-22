@@ -24,7 +24,7 @@ return require('packer').startup(function(use)
   -- Need to also have ripgrep installed for this to work:
   -- brew install ripgrep
   use {
-    'nvim-telescope/telescope.nvim', tag = '0.1.0',
+    'nvim-telescope/telescope.nvim', tag = '0.1.6',
     requires = {
       {'nvim-lua/plenary.nvim'} ,
       { "nvim-telescope/telescope-live-grep-args.nvim" },
@@ -64,7 +64,7 @@ return require('packer').startup(function(use)
   }
   use 'windwp/nvim-ts-autotag'
   -- prettier
-  use('jose-elias-alvarez/null-ls.nvim')
+  use('nvimtools/none-ls.nvim')
   use('MunifTanjim/prettier.nvim')
   -- tmux navigator
   use {
