@@ -112,6 +112,7 @@ lua << END
       disable = {},
     },
     ensure_installed = {
+      "bash",
       "tsx",
       "json",
       "yaml",
