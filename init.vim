@@ -113,6 +113,7 @@ lua << END
     },
     ensure_installed = {
       "bash",
+      "javascript",
       "tsx",
       "json",
       "yaml",
