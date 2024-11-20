@@ -139,17 +139,26 @@ lua << END
   local protocol = require('vim.lsp.protocol')
 
   local on_attach = function(client, bufnr)
-    -- format on save
-    if client.server_capabilities.documentFormattingProvider then
-      vim.api.nvim_create_autocmd("BufWritePre", {
-        group = vim.api.nvim_create_augroup("Format", { clear = true }),
-        buffer = bufnr,
-        callback = function() vim.lsp.buf.format() end
-      })
+    -- Format on save. Currently disabled since we're using eslint.
+    -- if client.server_capabilities.documentFormattingProvider then
+    --   vim.api.nvim_create_autocmd("BufWritePre", {
+    --     group = vim.api.nvim_create_augroup("Format", { clear = true }),
+    --     buffer = bufnr,
+    --     callback = function() vim.lsp.buf.format() end
+    --   })
+    -- end
+    client.server_capabilities.documentFormattingProvider = false
+
+    local buf_map = function(mode, lhs, rhs, opts)
+      opts = opts or {}
+      opts.buffer = bufnr
+      vim.keymap.set(mode, lhs, rhs, opts)
     end
 
     vim.keymap.set('n', 'gd', vim.lsp.buf.definition, bufopts)
     vim.keymap.set('n', 'K', vim.lsp.buf.hover, bufopts)
+    
+    buf_map('n', '<leader>ca', vim.lsp.buf.code_action) -- Trigger code actions
   end
 
   -- JSON
