@@ -49,11 +49,7 @@ lua << END
     }
   }
 
-  -- autotags
-  local status, autotag = pcall(require, "nvim-ts-autotag")
-  if (not status) then return end
-
-  autotag.setup({})
+  require('nvim-ts-autotag').setup({})
 
   -- autopairs
 	local status, autopairs = pcall(require, "nvim-autopairs")
@@ -124,9 +120,6 @@ lua << END
       "solidity",
       "typescript"
     },
-    autotag = {
-      enable = true,
-    },
   }
 
   local parser_config = require "nvim-treesitter.parsers".get_parser_configs()
@@ -168,7 +161,7 @@ lua << END
 
   -- TypeScript
   local capabilities = require('cmp_nvim_lsp').default_capabilities()
-  nvim_lsp.tsserver.setup {
+  nvim_lsp.ts_ls.setup {
     on_attach = on_attach,
     filetypes = { "typescript", "typescriptreact", "typescript.tsx" },
     cmd = { "typescript-language-server", "--stdio" },
