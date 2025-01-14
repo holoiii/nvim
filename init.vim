@@ -19,7 +19,7 @@ lua << END
   require('lualine').setup()
   require('gitsigns').setup()
 
-  -- Auto lint on save:
+  -- Auto lint on save (eslint):
   -- Need to run this first before the below works
   -- npm i -g vscode-langservers-extracted
   require'lspconfig'.eslint.setup({
@@ -27,6 +27,22 @@ lua << END
       vim.api.nvim_create_autocmd("BufWritePre", {
         buffer = bufnr,
         command = "EslintFixAll",
+      })
+    end,
+  })
+
+  -- Auto lint on save (biome):
+  -- Attach Biome LSP
+  require'lspconfig'.biome.setup({
+    on_attach = function(client, bufnr)
+      vim.api.nvim_create_autocmd("BufWritePre", {
+        buffer = bufnr,
+        callback = function()
+          vim.lsp.buf.code_action {
+            context = { only = { "source.fixAll.biome" } },
+            apply = true,
+          }
+        end,
       })
     end,
   })
@@ -158,6 +174,10 @@ lua << END
   -- Run this first:
   -- npm i -g vscode-langservers-extracted
   require'lspconfig'.jsonls.setup{}
+
+  -- Biome
+  -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md#biome
+  -- require'lspconfig'.biome.setup{}
 
   -- TypeScript
   local capabilities = require('cmp_nvim_lsp').default_capabilities()
