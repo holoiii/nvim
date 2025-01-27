@@ -16,7 +16,16 @@ lua require('plugins')
 
 " Packer plugins setup
 lua << END
-  require('lualine').setup()
+  require('lualine').setup({
+    sections = {
+      lualine_a = {'mode'},
+      lualine_b = {},
+      lualine_c = {'filename'},
+      lualine_x = {'location'},
+      lualine_y = {},
+      lualine_z = {}
+    }
+  })
   require('gitsigns').setup()
 
   -- Auto lint on save (eslint):
