@@ -31,26 +31,51 @@ lua << END
   -- Auto lint on save (eslint):
   -- Need to run this first before the below works
   -- npm i -g vscode-langservers-extracted
-  require'lspconfig'.eslint.setup({
-    on_attach = function(client, bufnr)
-      vim.api.nvim_create_autocmd("BufWritePre", {
-        buffer = bufnr,
-        command = "EslintFixAll",
-      })
-    end,
-  })
+  -- require'lspconfig'.eslint.setup({
+  --   on_attach = function(client, bufnr)
+  --     vim.api.nvim_create_autocmd("BufWritePre", {
+  --       buffer = bufnr,
+  --       command = "EslintFixAll",
+  --     })
+  --   end,
+  -- })
+
+  -- This is needed for biome to help apply the edits synchronously
+  -- https://zenn.dev/izumin/articles/b8046e64eaa2b5
+	local function execute_code_action_sync(client, bufnr, action)
+		local params = vim.lsp.util.make_range_params()
+		params.context = { only = { action }, diagnostics = {} }
+		local result = client.request_sync("textDocument/codeAction", params, 3000, bufnr)
+		for _, res in pairs(result and result.result or {}) do
+			if res.edit then
+				local encoding = client.offset_encoding or "utf-16"
+				vim.lsp.util.apply_workspace_edit(res.edit, encoding)
+			end
+		end
+	end
+
+	local function organize_imports_sync(client, bufnr)
+		execute_code_action_sync(client, bufnr, "source.organizeImports")
+	end
+
+	local function fix_all_sync(client, bufnr)
+		execute_code_action_sync(client, bufnr, "source.fixAll")
+	end
 
   -- Auto lint on save (biome):
   -- Attach Biome LSP
   require'lspconfig'.biome.setup({
     on_attach = function(client, bufnr)
       vim.api.nvim_create_autocmd("BufWritePre", {
-        buffer = bufnr,
-        callback = function()
-          vim.lsp.buf.code_action {
-            context = { only = { "source.fixAll.biome" } },
-            apply = true,
-          }
+        callback = function(args)
+          local bufnr = args.buf
+          for _, client in pairs(vim.lsp.get_active_clients({ bufnr = bufnr })) do
+            if client.name == "biome" then
+              organize_imports_sync(client, bufnr)
+              fix_all_sync(client, bufnr)
+              vim.lsp.buf.format({ bufnr = bufnr, async = false })
+            end
+          end
         end,
       })
     end,
