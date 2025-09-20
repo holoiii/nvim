@@ -230,6 +230,11 @@ lua << END
     },
   } 
 
+  -- Python
+  nvim_lsp.pyright.setup {
+    on_attach = on_attach,
+  }
+
   -- Mason setup
   local status, mason = pcall(require, "mason")
   if (not status) then return end
@@ -239,7 +244,7 @@ lua << END
   mason.setup({})
 
   lspconfig.setup {
-    ensure_installed = { "lua_ls", "tailwindcss", "rust_analyzer" },
+    ensure_installed = { "lua_ls", "tailwindcss", "rust_analyzer", "pyright" },
   }
 
   -- Setup tailwind
@@ -316,6 +321,17 @@ lua << END
   vim.keymap.set({'n', 't'}, '<C-l>', '<CMD>NavigatorRight<CR>')
   vim.keymap.set({'n', 't'}, '<C-k>', '<CMD>NavigatorUp<CR>')
   vim.keymap.set({'n', 't'}, '<C-j>', '<CMD>NavigatorDown<CR>')
+
+  -- Show diagnostics on hover
+  vim.o.updatetime = 250  -- Faster CursorHold trigger
+  vim.api.nvim_create_autocmd("CursorHold", {
+    callback = function()
+    local diagnostics = vim.diagnostic.get()
+    if diagnostics and #diagnostics > 0 then
+      vim.diagnostic.open_float(nil, { focus = false })
+      end
+    end
+  })
 END
 
 " Ignore casing when searching
