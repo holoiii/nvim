@@ -284,7 +284,8 @@ lua << END
     },
   }
 
-  -- keymaps
+  -- Keymaps
+  -- Use <leader>f to open file finder, by filename
   vim.keymap.set('n', ';f',
     function()
       builtin.find_files({
@@ -292,19 +293,24 @@ lua << END
         hidden = true
       })
     end)
+  -- Use <leader>r to open live grep search
   vim.keymap.set('n', ';r', function()
     builtin.live_grep()
   end)
+  -- Regex search 
   vim.keymap.set("n", ";R", ":lua require('telescope').extensions.live_grep_args.live_grep_args()<CR>")
   vim.keymap.set('n', '\\\\', function()
     builtin.buffers()
   end)
+  -- Help tags
   vim.keymap.set('n', ';t', function()
     builtin.help_tags()
   end)
+  -- Repeat last search
   vim.keymap.set('n', ';;', function()
     builtin.resume()
   end)
+  -- Opens diagnostics list
   vim.keymap.set('n', ';e', function()
     builtin.diagnostics()
   end)
