@@ -231,9 +231,25 @@ lua << END
   } 
 
   -- Python
-  nvim_lsp.pyright.setup {
+  -- https://docs.astral.sh/ruff/editors/setup/#neovim
+  nvim_lsp.ruff.setup({})
+
+	nvim_lsp.pyright.setup {
     on_attach = on_attach,
-  }
+    -- Use ruff for all formatting and import handling
+		settings = {
+			pyright = {
+				-- Using Ruff's import organizer
+				disableOrganizeImports = true,
+			},
+			-- python = {
+			-- 	analysis = {
+			-- 		-- Ignore all files for analysis to exclusively use Ruff for linting
+			-- 		ignore = { '*' },
+			-- 	},
+			-- },
+		},
+	}
 
   -- Mason setup
   local status, mason = pcall(require, "mason")
@@ -416,3 +432,6 @@ set showcmd
 " Gruvbox colorscheme
 colorscheme gruvbox
 set background=dark
+
+" Yank to system clipboard
+set clipboard+=unnamedplus
