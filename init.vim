@@ -154,10 +154,12 @@ lua << END
       local client = vim.lsp.get_client_by_id(ev.data.client_id)
       if client.name == "biome" then
         on_attach(client, ev.buf)
-        vim.api.nvim_create_autocmd("BufWritePre", {
+        vim.api.nvim_create_autocmd("BufWritePost", {
           buffer = ev.buf,
-          callback = function()
-            vim.lsp.buf.format({ bufnr = ev.buf, id = client.id, timeout_ms = 1000 })
+          callback = function(args)
+            local filepath = vim.api.nvim_buf_get_name(args.buf)
+            vim.fn.system({ "biome", "check", "--write", filepath })
+            vim.cmd("checktime")
           end,
         })
       end
