@@ -146,34 +146,31 @@ lua << END
 
   -- nvim-treesitter setup
   local status, ts = pcall(require, "nvim-treesitter.configs")
-  if (not status) then return end
-
-  ts.setup {
-    highlight = {
-      enable = true,
-      disable = {},
-    },
-    indent = {
-      enable = true,
-      disable = {},
-    },
-    ensure_installed = {
-      "bash",
-      "javascript",
-      "tsx",
-      "json",
-      "yaml",
-      "css",
-      "html",
-      "lua",
-      "prisma",
-      "solidity",
-      "typescript"
-    },
-  }
-
-  local parser_config = require "nvim-treesitter.parsers".get_parser_configs()
-  parser_config.tsx.filetype_to_parsername = { "javascript", "typescript.tsx" }
+  if status and ts.setup then
+    ts.setup {
+      highlight = {
+        enable = true,
+        disable = {},
+      },
+      indent = {
+        enable = true,
+        disable = {},
+      },
+      ensure_installed = {
+        "bash",
+        "javascript",
+        "tsx",
+        "json",
+        "yaml",
+        "css",
+        "html",
+        "lua",
+        "prisma",
+        "solidity",
+        "typescript"
+      },
+    }
+  end
 
   -- lspconfig setup
   local status, nvim_lsp = pcall(require, "lspconfig")
@@ -198,8 +195,8 @@ lua << END
       vim.keymap.set(mode, lhs, rhs, opts)
     end
 
-    vim.keymap.set('n', 'gd', vim.lsp.buf.definition, bufopts)
-    vim.keymap.set('n', 'K', vim.lsp.buf.hover, bufopts)
+    vim.keymap.set('n', 'gd', vim.lsp.buf.definition, { buffer = bufnr })
+    vim.keymap.set('n', 'K', vim.lsp.buf.hover, { buffer = bufnr })
     
     buf_map('n', '<leader>ca', vim.lsp.buf.code_action) -- Trigger code actions
   end
